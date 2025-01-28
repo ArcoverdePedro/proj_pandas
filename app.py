@@ -1,17 +1,35 @@
 import pandas as pd
-from dash import html, dcc, Dash, Input, Output
-import plotly.express as px
+#from dash import html, dcc, Dash, Input, Output
+#import plotly.express as px
 
 pd.set_option('display.max_rows', None)
 #pd.set_option('display.max_columns', None)
 df = pd.read_csv('Brseriea.csv')
 
 
-def maisvenceu(df):
-    df['mandante_venceu'] = df['gols_mandante'] > df['gols_visitante']
-    df['visitante_venceu'] = df['gols_visitante'] > df['gols_mandante']
-    vitorias_mandante_time = df.groupby(['time_mandante'])['mandante_venceu'].sum()
-#vitorias_visitante_time = df.groupby('time_visitante')['visitante_venceu'].sum()
+def maisvenceumandante(data):
+    data['mandante_venceu'] = data['gols_mandante'] > data['gols_visitante']
+    data['visitante_venceu'] = data['gols_visitante'] > data['gols_mandante']
+    vitorias_mandante_time = data.groupby(['time_mandante'])['mandante_venceu'].sum()
+    print(vitorias_mandante_time)
 
-print (vitorias_mandante_time)
-#print (df.info())
+def maisvenceuvistante(data):
+    data['mandante_venceu'] = data['gols_mandante'] > data['gols_visitante']
+    data['visitante_venceu'] = data['gols_visitante'] > data['gols_mandante']
+    vitorias_visitante_time = data.groupby(['time_visitante'])['visitante_venceu'].sum()
+    print(vitorias_visitante_time)
+
+def maispontosmandante(data):
+    data['mandante_venceu'] = data['gols_mandante'] > data['gols_visitante']
+    data['visitante_venceu'] = data['gols_visitante'] > data['gols_mandante']
+    mandante_venceu = data.groupby(['time_mandante'])['mandante_venceu'].sum() * 3
+    data['mandante_empate'] = data['gols_mandante'] == data['gols_visitante']
+    mandante_empate = data.groupby(['time_mandante'])['mandante_empate'].sum()
+    pontos_mandante_time = mandante_venceu + mandante_empate
+    print(mandante_venceu)
+
+
+#maisvenceumandante(df)
+#maisvenceuvistante(df)
+#maispontosmandante(df)
+
